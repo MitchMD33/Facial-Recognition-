@@ -3,7 +3,7 @@ import { Tilt } from 'react-tilt';
 import brain from './brain.png';
 import './logo.css'; 
 
-/*Logo */
+/*Brain logo*/
 const Logo = () => {
   return (
    <div className='ma4 mt0'>
