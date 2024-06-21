@@ -3,6 +3,7 @@ import Navigation from './Componennts/Navigation/Navigation';
 import Logo from './Componennts/logo/logo';
 import ImageLinkForm from './Componennts/ImageLinkForm/ImageLinkForm';
 import FacRecognition from './Componennts/FacRecognition/FacRecognition';
+import SignIn from './Componennts/Signin/Signin.js';
 import Rank from './Componennts/Rank/Rank';
 import ParticlesBg from 'particles-bg'
 import './App.css';
@@ -50,9 +51,12 @@ class App extends Component{
     super();
     this.state= {
       input:'',
-      imageURL:''
+      imageURL:'',
+      box: {},
     }
   }
+
+
 
 
 
@@ -71,6 +75,8 @@ onButtonSubmit = () => {
   fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", returnClarifaiRequestOptions(this.state.input) )
     .then(response => response.json())
     .then(result => {
+
+      
 
         const regions = result.outputs[0].data.regions;
 
@@ -91,18 +97,38 @@ onButtonSubmit = () => {
                 
             });
         });
-
+        
+        this.displayFaceBox(this.calculateFaceLocation(result));
     })
     .catch(error => console.log('error', error));
+
   
   }
 
+  calculateFaceLocation = (data) => {
+    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box
+    const image = document.getElementById('inputimage');
+    const width = Number(image.width);
+    const height = Number(image.height);
+   return {
+    leftCol: clarifaiFace.left_col * width,
+    topRow: clarifaiFace.top_row * height,
+    rightCol: width - (clarifaiFace.right_col * width),
+    bottomRow: height - (clarifaiFace.bottom_row * height)
+   } 
+  }
+
+  displayFaceBox = (box) => {
+    console.log(box);
+    this.setState({box: box})
+  }
 
 
   render() {
     return (
       <div className="App">
         <ParticlesBg color="#ff0000" num={200} type="cobweb" bg={true} /> 
+        <SignIn/>
       <Navigation />
       <Logo/>
       <ImageLinkForm 
@@ -110,7 +136,7 @@ onButtonSubmit = () => {
       onButtonSubmit={this.onButtonSubmit}/>
       <Rank />
      {
-        <FacRecognition imageURL={this.state.imageURL}/>
+        <FacRecognition box ={this.state.box} imageURL={this.state.imageURL}/>
      }
       </div>
     );
