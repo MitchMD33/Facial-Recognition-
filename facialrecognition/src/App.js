@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import Navigation from './Componennts/Navigation/Navigation';
-import Logo from './Componennts/logo/logo';
-import ImageLinkForm from './Componennts/ImageLinkForm/ImageLinkForm';
-import FacRecognition from './Componennts/FacRecognition/FacRecognition';
-import SignIn from './Componennts/SignIn/SignIn';
-import Register from './Componennts/Register/Register';
-import Rank from './Componennts/Rank/Rank';
+import Navigation from './Components/Navigation/Navigation';
+import Logo from './Components/logo/logo';
+import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm';
+import FacRecognition from './Components/FacRecognition/FacRecognition';
+import SignIn from './Components/SignIn/SignIn';
+import Register from './Components/Register/Register';
+import Rank from './Components/Rank/Rank';
 import ParticlesBg from 'particles-bg'
 import './App.css';
 
