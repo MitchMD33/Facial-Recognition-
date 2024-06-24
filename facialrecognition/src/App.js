@@ -87,14 +87,12 @@ class App extends Component{
 
 onButtonSubmit = () => {
   this.setState({imageURL: this.state.input});
-  console.log('click');
   const MODEL_ID = 'face-detection';
   const MODEL_VERSION_ID = '6dc7e46bc9124c5c8824be4822abe105';
   fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", returnClarifaiRequestOptions(this.state.input) )
-    .then(response => response.json())
+    .then(response => response.json(), )
     .then(result => {
 
-      
 
         const regions = result.outputs[0].data.regions;
 
@@ -114,6 +112,20 @@ onButtonSubmit = () => {
                 console.log(`${name}: ${value} BBox: ${topRow}, ${leftCol}, ${bottomRow}, ${rightCol}`);
                 
             });
+            if (result) {
+              fetch('http://localhost:3000/image', {
+                method: 'put',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                  id: this.state.user.id
+                })
+              })
+                .then(response => response.json())
+                .then(count => {
+                  this.setState(Object.assign(this.state.user, { entries: count}))
+                })
+                .catch(console.log)
+            }
         });
         
         this.displayFaceBox(this.calculateFaceLocation(result));
@@ -141,6 +153,7 @@ onButtonSubmit = () => {
 
   displayFaceBox = (box) => {
     this.setState({box: box})
+    
   }
 
   onRouteChange = (route) => {
@@ -165,13 +178,13 @@ onButtonSubmit = () => {
           <ImageLinkForm 
           onInputChange={this.onInputChange} 
           onButtonSubmit={this.onButtonSubmit}/>
-          <Rank />
+          <Rank name={this.state.user.name } entries={this.state.user.entries}/>
             <FacRecognition box ={box} imageURL={imageURL}/>
         </div>
         :(
           route === 'signIn'
-          ?<SignIn onRouteChange={this.onRouteChange}/>
-          :<Register loadUser={this.loadUser}  onRouteChange={this.onRouteChange}/>
+          ?<SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+          :<Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
         )
         
      }
