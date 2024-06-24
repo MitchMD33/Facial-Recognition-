@@ -55,11 +55,26 @@ class App extends Component{
       imageURL:'',
       box: {},
       route: 'signIn',
-      isSignedIn: false
+      isSignedIn: false,
+      user:  {
+        id: '',
+        name:'',
+        email: '',
+        entries: '0',
+        joined:''
+      }
     }
   }
 
-
+  loadUser = (data) => {
+    this.setState({user:{
+      id: data.id,
+        name:data.name,
+        email: data.email,
+        entries: data.entries,
+        joined: data.joined
+    }})
+  }
 
 
 
@@ -121,6 +136,9 @@ onButtonSubmit = () => {
    } 
   }
 
+
+
+
   displayFaceBox = (box) => {
     this.setState({box: box})
   }
@@ -153,7 +171,7 @@ onButtonSubmit = () => {
         :(
           route === 'signIn'
           ?<SignIn onRouteChange={this.onRouteChange}/>
-          :<Register onRouteChange={this.onRouteChange}/>
+          :<Register loadUser={this.loadUser}  onRouteChange={this.onRouteChange}/>
         )
         
      }
