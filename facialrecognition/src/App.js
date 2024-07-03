@@ -182,7 +182,7 @@ onButtonSubmit = () => {
             <FacRecognition box ={box} imageURL={imageURL}/>
         </div>
         :(
-          route === 'signIn'
+          route === 'signin'
           ?<SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
           :<Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
         )
