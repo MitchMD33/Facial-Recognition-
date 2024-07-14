@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family:'Courier New', Courier, monospace;
-    background: linear-gradient(90deg, rgba(36,0,0,0.42620798319327735) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+    background: linear-gradient(90deg, rgba(36,0,0,0.42620798319327735) 0%, rgba(9, 9, 121, 0.712) 35%, rgba(0,212,255,1) 100%);
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
